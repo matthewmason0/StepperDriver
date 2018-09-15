@@ -28,7 +28,7 @@ BasicStepperDriver::BasicStepperDriver(short steps, short dir_pin, short step_pi
 /*
  * Initialize pins, calculate timings etc
  */
-void BasicStepperDriver::begin(short rpm, short microsteps){
+void BasicStepperDriver::begin(double rpm, short microsteps){
     pinMode(dir_pin, OUTPUT);
     digitalWrite(dir_pin, HIGH);
 
@@ -49,7 +49,7 @@ void BasicStepperDriver::begin(short rpm, short microsteps){
 /*
  * Set target motor RPM (1-200 is a reasonable range)
  */
-void BasicStepperDriver::setRPM(short rpm){
+void BasicStepperDriver::setRPM(double rpm){
     if (this->rpm == 0){        // begin() has not been called (old 1.0 code)
         begin(rpm, microsteps);
     }
@@ -123,7 +123,7 @@ void BasicStepperDriver::startMove(long steps){
         switch (profile.mode){
         case LINEAR_SPEED:
             // speed is in [steps/s]
-            speed = rpm * motor_steps / 60;
+            speed = int(rpm * motor_steps) / 60;
             // how many steps from 0 to target rpm
             steps_to_cruise = speed * speed * microsteps / (2 * profile.accel);
             // how many steps are needed from target rpm to a full stop
@@ -136,7 +136,7 @@ void BasicStepperDriver::startMove(long steps){
             // Initial pulse (c0) including error correction factor 0.676 [us]
             step_pulse = (1e+6)*0.676*sqrt(2.0f/(profile.accel*microsteps));
             break;
-    
+
         case CONSTANT_SPEED:
         default:
             step_pulse = STEP_PULSE(rpm, motor_steps, microsteps);
@@ -198,7 +198,7 @@ long BasicStepperDriver::getTimeForMove(long steps){
     switch (profile.mode){
         case LINEAR_SPEED:
             startMove(steps);
-            t = sqrt(2 * steps_to_cruise / profile.accel) + 
+            t = sqrt(2 * steps_to_cruise / profile.accel) +
                 (steps_remaining - steps_to_cruise - steps_to_brake) * STEP_PULSE(rpm, motor_steps, microsteps) +
                 sqrt(2 * steps_to_brake / profile.decel);
             break;

@@ -35,7 +35,7 @@ public:
     struct Profile {
         Mode mode = CONSTANT_SPEED;
         short accel = 1000;     // acceleration [steps/s^2]
-        short decel = 1000;     // deceleration [steps/s^2]    
+        short decel = 1000;     // deceleration [steps/s^2]
     };
     static inline void delayMicros(unsigned long delay_us, unsigned long start_us = 0){
         if (delay_us){
@@ -79,7 +79,7 @@ protected:
     // tWAKE wakeup time, nSLEEP inactive to STEP (us)
     static const int wakeup_time = 0;
 
-    short rpm = 0;
+    double rpm = 0;
 
     /*
      * Movement state
@@ -182,7 +182,7 @@ public:
      * Pick just one based on move type and distance type.
      */
     void startMove(long steps);
-    inline void startRotate(int deg){ 
+    inline void startRotate(int deg){
         startRotate((long)deg);
     };
     void startRotate(long deg);
