@@ -1,4 +1,4 @@
-StepperDriver	KEYWORD1
+StepperDriver_SAM	KEYWORD1
 
 BasicStepperDriver	KEYWORD1
 DRV8880	KEYWORD1
