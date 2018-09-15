@@ -123,7 +123,7 @@ void BasicStepperDriver::startMove(long steps){
         switch (profile.mode){
         case LINEAR_SPEED:
             // speed is in [steps/s]
-            speed = int(rpm * motor_steps) / 60;
+            speed = long(rpm * motor_steps) / 60;
             // how many steps from 0 to target rpm
             steps_to_cruise = speed * speed * microsteps / (2 * profile.accel);
             // how many steps are needed from target rpm to a full stop

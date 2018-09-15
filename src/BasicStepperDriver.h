@@ -113,7 +113,7 @@ public:
     /*
      * Initialize pins, calculate timings etc
      */
-    void begin(short rpm=60, short microsteps=1);
+    void begin(double rpm=60, short microsteps=1);
     /*
      * Set current microstep level, 1=full speed, 32=fine microstepping
      * Returns new level or previous level if value out of range
@@ -128,12 +128,12 @@ public:
     /*
      * Set target motor RPM (1-200 is a reasonable range)
      */
-    void setRPM(short rpm);
-    short getRPM(void){
+    void setRPM(double rpm);
+    double getRPM(void){
         return rpm;
     };
-    short getCurrentRPM(void){
-        return (short)(60*1000000L / step_pulse / microsteps / motor_steps);
+    double getCurrentRPM(void){
+        return (double)(60*1000000L / step_pulse / microsteps / motor_steps);
     }
     /*
      * Set speed profile - CONSTANT_SPEED, LINEAR_SPEED (accelerated)
